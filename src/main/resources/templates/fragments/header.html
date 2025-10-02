@@ -1,0 +1,12 @@
+<div th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/home">
+            <img th:src="@{/images/avatar.png}" width="40" height="40" />
+            <span th:text="${session.currentUser != null ? session.currentUser.fullName : 'Guest'}"></span>
+        </a>
+        <div>
+            <a th:href="@{/logout}" th:if="${session.currentUser != null}">Logout</a>
+            <a th:href="@{/login}" th:if="${session.currentUser == null}">Login</a>
+        </div>
+    </nav>
+</div>

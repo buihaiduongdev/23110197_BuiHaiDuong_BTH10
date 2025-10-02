@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <title th:text="${category.id == null} ? #{category.add.title} : #{category.edit.title}">Form</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <h1 th:text="${category.id == null} ? #{category.add.title} : #{category.edit.title}">Category Form</h1>
+
+    <form th:action="@{${category.id == null} ? '/category/add' : '/category/edit/' + ${category.id}}" th:object="${category}" method="post" enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label for="name" class="form-label" th:text="#{category.name.label}">Name</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name">
+            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label" th:text="#{category.description}">Description</label>
+            <textarea th:field="*{description}" class="form-control" id="description"></textarea>
+            <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="imageFile" class="form-label" th:text="#{category.image}">Image</label>
+            <input type="file" name="imageFile" class="form-control" id="imageFile">
+            <img th:if="${category.image != null}" th:src="@{/category/images/{filename}(filename=${category.image})}" alt="Current Image" width="150" class="mt-2"/>
+        </div>
+        
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input type="number" th:field="*{quantity}" class="form-control" id="quantity">
+            <div class="text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="creationDate" class="form-label">Creation Date</label>
+            <input type="date" th:field="*{creationDate}" class="form-control" id="creationDate">
+            <div class="text-danger" th:if="${#fields.hasErrors('creationDate')}" th:errors="*{creationDate}"></div>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" th:field="*{status}" class="form-check-input" id="status">
+            <label class="form-check-label" for="status">Active</label>
+            <div class="text-danger" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" th:text="#{button.save}">Save</button>
+        <a th:href="@{/category}" class="btn btn-secondary" th:text="#{button.cancel}">Cancel</a>
+    </form>
+
+</section>
+</body>
+</html>
